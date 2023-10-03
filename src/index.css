@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.pink{
+    --color : #FC8F8E;
+    --background : #2F314B;
+    --filter : -30deg;
+}
+
+.yellow{
+    --color : #fce58f;
+    --background:#2F314B;
+    --filter : 35deg;
+}
+
+.green{
+    --color:#90fcb4;
+    --background: #2F314B;
+    --filter : 100deg
+}
+
+button{
+    cursor: default;
+}
+
+.content{
+    color: var(--color);
+    background-color: var(--background);
+  }
+
+  .reverse{
+    color: var(--background);
+    background-color: var(--color);
+  }
