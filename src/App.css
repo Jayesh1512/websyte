@@ -11,15 +11,21 @@ img{
 
 
 .left{
-  position: fixed;
+  /* position: fixed; */
 }
 
 .right{
-  position: absolute;
-  right:0
+  /* position: absolute; */
+  /* right:0 */
 }
 
 .image{
   filter: hue-rotate(var(--filter));
 }
 
+/* @media screen and (max-width:1024px){
+
+  .left{
+
+  }
+} */

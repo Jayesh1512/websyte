@@ -10,11 +10,11 @@ import Left from './components/Left'
 function App() {
  
   return (
-    <div className='content flex'>
+    <div className='content lg:flex ' >
      
       
      {/* LEFT */}
-      <div className='left w-1/2 h-screen content'>
+      <div className=' w-screen h-screen content lg:fixed lg:w-1/2'>
         <Left />
       </div>
       
@@ -24,7 +24,7 @@ function App() {
       
       {/* Right */}
       
-      <div className='right w-1/2 h-screen bg-slate-400'>
+      <div className=' w-screen h-screen bg-slate-400 lg:w-1/2 lg:absolute lg:right-0'>
         <Photo />
         <Content />
       </div>

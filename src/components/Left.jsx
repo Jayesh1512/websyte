@@ -26,8 +26,8 @@ function Left() {
 
   return (
     <div>
-      <div className=' ml-20 flex justify-start  w-5/12'>
-      <button className=' mt-20 w-10 h-10 rounded-full bg-text-pink grid place-content-center' onClick={pinkTheme}>.</button>
+      <div className=' ml-8 flex justify-start w-9/12 lg:ml-14'>
+      <button className='mt-20 w-10 h-10 rounded-full bg-text-pink grid place-content-center' onClick={pinkTheme}></button>
       <button className='ml-20 mt-20 w-10 h-10 rounded-full bg-text-yellow grid place-content-center' onClick={yellowTheme}></button>
       <button className='ml-20 mt-20 w-10 h-10 rounded-full bg-text-green grid place-content-center' onClick={greenTheme}></button>
           
