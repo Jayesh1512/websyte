@@ -34,3 +34,8 @@ button{
     color: var(--background);
     background-color: var(--color);
   }
+
+
+html{
+    cursor:none
+}  
