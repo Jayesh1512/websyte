@@ -38,5 +38,6 @@ button{
 
 
 html{
-    cursor:none
+    cursor:none;
+    font-family: 'Inter', sans-serif;
 }  
