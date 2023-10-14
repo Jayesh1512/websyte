@@ -37,7 +37,8 @@ button{
   }
 
 
-html{
+html,body{
     cursor:none;
     font-family: 'Inter', sans-serif;
+    overflow-x:none;
 }  

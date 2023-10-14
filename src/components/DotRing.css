@@ -32,9 +32,9 @@
 
 @media screen and (max-width:1000px){
   .ring{
-    display: hidden;
+    display:none;
   }
   .dot{
-    display:hidden;
+    display:none;
   }
 }
