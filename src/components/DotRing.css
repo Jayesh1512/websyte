@@ -28,3 +28,13 @@
     z-index: 999;
     pointer-events: none;
   }
+
+
+@media screen and (max-width:1000px){
+  .ring{
+    display: hidden;
+  }
+  .dot{
+    display:hidden;
+  }
+}
