@@ -4,9 +4,9 @@ import React from 'react'
 
 function About() {
   return (
-    <div className='h-screen reverse w-full flex justify-center items-center'>
+    <div className='pt-20 pb-20 pl-10 pr-10 min-h-screen reverse w-full flex justify-center items-center'>
     
-      <div className=' h-5/6 w-10/12 -ml-16 '>
+      <div className=' h-5/6 lg:w-10/12 text-center -ml-3 '>
           <p className='text-bg-purple font-semibold text-4xl'>About me</p>
 
           <p className='text-bg-purple font-medium text-2xl mt-4'>I enjoy working closely with design teams to faithfully translate their designs right down to the last pixel. Daily, you'll find me using modern frontend technologies that bring the creative process to life just as designers intended them to be.</p>
