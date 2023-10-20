@@ -34,7 +34,7 @@ function Left() {
         </div>
 
         <div>
-            <button className='mt-20 w-20 h-20 rounded-full reverse grid place-content-center p-3 lg:relative fixed right-10 bottom-20 z-50 '>
+            <button className='mt-20 w-20 h-20 rounded-full reverse grid place-content-center p-3 lg:static fixed right-10 bottom-20 z-50 '>
               <img src={image} alt="" className='object-contain'/>
             </button>
         </div>
