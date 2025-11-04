@@ -108,4 +108,4 @@ class HyperliquidClient {
   }
 }
 
-export default new HyperliquidClient();
+export { HyperliquidClient };

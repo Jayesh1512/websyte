@@ -1,10 +1,16 @@
-import hyperliquidClient from './hyperliquidClient.js';
-
 /**
  * PnL Calculator Service
  * Handles calculation of daily realized/unrealized PnL, fees, and funding
  */
 class PnlCalculator {
+  /**
+   * Create a new PnlCalculator instance
+   * @param {HyperliquidClient} hyperliquidClient - HyperLiquid API client instance
+   */
+  constructor(hyperliquidClient) {
+    this.hyperliquidClient = hyperliquidClient;
+  }
+
   /**
    * Calculate daily PnL for a wallet within a date range
    * @param {string} wallet - Wallet address
@@ -19,9 +25,9 @@ class PnlCalculator {
 
     // Fetch all required data in parallel for better performance
     const [fills, funding, clearinghouseState] = await Promise.all([
-      hyperliquidClient.getUserFills(wallet),
-      hyperliquidClient.getUserFunding(wallet, startTime, endTime),
-      hyperliquidClient.getClearinghouseState(wallet),
+      this.hyperliquidClient.getUserFills(wallet),
+      this.hyperliquidClient.getUserFunding(wallet, startTime, endTime),
+      this.hyperliquidClient.getClearinghouseState(wallet),
     ]);
 
     // Filter fills to date range
@@ -178,4 +184,4 @@ class PnlCalculator {
   }
 }
 
-export default new PnlCalculator();
+export { PnlCalculator };

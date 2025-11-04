@@ -13,9 +13,9 @@ A backend service that fetches and calculates a wallet's daily Profit and Loss (
 - ✅ RESTful API design
 - ✅ Summary statistics across date ranges
 
-## API Endpoint
+## API Endpoints
 
-### Get Wallet Daily PnL
+### 1. Get Wallet Daily PnL
 
 ```
 GET /api/hyperliquid/:wallet/pnl?start=YYYY-MM-DD&end=YYYY-MM-DD
@@ -150,6 +150,76 @@ GET /api/hyperliquid/:wallet/pnl?start=YYYY-MM-DD&end=YYYY-MM-DD
 }
 ```
 
+### 2. Get Wallet Summary
+
+Get comprehensive wallet information including recent fills, positions, and margin data.
+
+```
+GET /api/hyperliquid/:wallet/summary
+```
+
+#### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `wallet` | string | Yes | Ethereum wallet address (0x...) |
+
+#### Response Format
+
+```json
+{
+  "success": true,
+  "wallet": "0x563C175E6F11582f65D6d9E360A618699DEe14a9",
+  "fills": [
+    {
+      "coin": "BTC",
+      "px": "45000.00",
+      "sz": "0.5",
+      "side": "B",
+      "time": 1704067200000,
+      "closedPnl": "123.45",
+      "fee": "2.50"
+    }
+  ],
+  "totalFills": 150,
+  "positions": [
+    {
+      "coin": "ETH",
+      "szi": "1.5",
+      "entryPx": "2500.00",
+      "unrealizedPnl": "75.50",
+      "leverage": {
+        "value": 3
+      }
+    }
+  ],
+  "marginSummary": {
+    "accountValue": "10000.50",
+    "totalNtlPos": "5000.00",
+    "totalRawUsd": "10000.50",
+    "totalMarginUsed": "1666.67"
+  }
+}
+```
+
+#### Field Descriptions
+
+- `fills`: Array of 10 most recent fills/trades
+- `totalFills`: Total number of fills available
+- `positions`: Array of open positions with unrealized PnL
+- `marginSummary`: Account margin and value information
+  - `accountValue`: Total account value in USD
+  - `totalNtlPos`: Total notional position value
+  - `totalRawUsd`: Raw USD balance
+  - `totalMarginUsed`: Margin currently in use
+
+#### Use Cases
+
+- Quick wallet overview
+- Check current positions and P&L
+- Monitor account margin status
+- View recent trading activity
+
 ## Quick Start
 
 ### Installation
@@ -179,6 +249,9 @@ curl http://localhost:3001/health
 
 # Get wallet PnL
 curl "http://localhost:3001/api/hyperliquid/0x563C175E6F11582f65D6d9E360A618699DEe14a9/pnl?start=2025-01-01&end=2025-01-07"
+
+# Get wallet summary
+curl "http://localhost:3001/api/hyperliquid/0x563C175E6F11582f65D6d9E360A618699DEe14a9/summary"
 ```
 
 ## Project Structure
@@ -187,15 +260,71 @@ curl "http://localhost:3001/api/hyperliquid/0x563C175E6F11582f65D6d9E360A618699D
 server/
 ├── index.js                 # Main Express server
 ├── controllers/
-│   └── hyperliquidController.js   # Request handlers
+│   └── hyperliquidController.js   # Request handlers (class-based)
 ├── routes/
 │   └── hyperliquid.js      # API routes
 ├── services/
-│   ├── hyperliquidClient.js       # HyperLiquid API client
-│   └── pnlCalculator.js    # PnL calculation logic
+│   ├── hyperliquidService.js      # Main HyperLiquid service (combines client + calculator)
+│   ├── hyperliquidClient.js       # HyperLiquid API client (class)
+│   └── pnlCalculator.js    # PnL calculation logic (class)
 └── utils/
     └── validation.js        # Input validation utilities
 ```
+
+### Class-Based Architecture
+
+The implementation uses a clean object-oriented architecture with dependency injection:
+
+**HyperLiquidClient** - Low-level API client
+```javascript
+import { HyperLiquidClient } from './services/hyperliquidClient.js';
+
+const client = new HyperLiquidClient();
+const fills = await client.getUserFills(walletAddress);
+```
+
+**PnlCalculator** - Business logic for PnL calculations
+```javascript
+import { HyperLiquidClient } from './services/hyperliquidClient.js';
+import { PnlCalculator } from './services/pnlCalculator.js';
+
+const client = new HyperLiquidClient();
+const calculator = new PnlCalculator(client);
+const dailyPnL = await calculator.calculateDailyPnL(wallet, start, end);
+```
+
+**HyperLiquidService** - High-level service combining all functionality
+```javascript
+import { HyperLiquidService } from './services/hyperliquidService.js';
+
+// Create service instance (combines client + calculator)
+const service = new HyperLiquidService({
+  apiUrl: 'https://api.hyperliquid.xyz/info',
+  timeout: 15000
+});
+
+// Use convenience methods
+const dailyPnL = await service.calculateDailyPnL(wallet, start, end);
+const summary = await service.getWalletSummary(wallet);
+const fills = await service.getUserFills(wallet);
+```
+
+**HyperLiquidController** - HTTP request handlers
+```javascript
+import { HyperLiquidController } from './controllers/hyperliquidController.js';
+import { HyperLiquidService } from './services/hyperliquidService.js';
+
+// Create controller with custom service (dependency injection)
+const service = new HyperLiquidService();
+const controller = new HyperLiquidController(service);
+```
+
+Benefits:
+- ✅ Dependency injection for better testability
+- ✅ Loose coupling between components
+- ✅ Easy to mock services in tests
+- ✅ Configurable instances
+- ✅ Follows SOLID principles
 
 ## Technical Details
 
